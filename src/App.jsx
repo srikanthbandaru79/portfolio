@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import "./App.css";
+import emailjs from "@emailjs/browser";
 
 import {
   FaGithub,
@@ -24,7 +25,58 @@ function App() {
   }, [theme]);
 
   const toggleTheme = () => {
-    setTheme(theme === "dark" ? "light" : "dark");
+    setTheme((prev) => (prev === "dark" ? "light" : "dark"));
+  };
+
+  /* ===========================
+        CONTACT FORM
+  ============================ */
+
+  const [form, setForm] = useState({
+    name: "",
+    email: "",
+    subject: "",
+    message: "",
+  });
+
+  const [loading, setLoading] = useState(false);
+  const [status, setStatus] = useState("");
+
+  const sendEmail = (e) => {
+    e.preventDefault();
+
+    setLoading(true);
+    setStatus("");
+
+    emailjs
+      .send(
+        "service_k4me114",
+        "template_8ls3elb",
+        {
+          name: form.name,
+          email: form.email,
+          subject: form.subject,
+          message: form.message,
+        },
+        "4HzRsr-CdvVKt60uq"
+      )
+      .then(() => {
+        setStatus("success");
+
+        setForm({
+          name: "",
+          email: "",
+          subject: "",
+          message: "",
+        });
+      })
+      .catch((error) => {
+        console.error(error);
+        setStatus("error");
+      })
+      .finally(() => {
+        setLoading(false);
+      });
   };
 
   return (
@@ -32,7 +84,7 @@ function App() {
 
       {/*==========================
               NAVBAR
-      ===========================*/}
+      ==========================*/}
 
       <nav className="navbar">
 
@@ -58,12 +110,8 @@ function App() {
             className="theme-toggle"
             onClick={toggleTheme}
           >
-            {theme === "dark"
-              ? <FaSun />
-              : <FaMoon />}
+            {theme === "dark" ? <FaSun /> : <FaMoon />}
           </button>
-
-    
 
         </div>
 
@@ -71,14 +119,12 @@ function App() {
 
       {/*==========================
               HERO
-      ===========================*/}
+      ==========================*/}
 
       <section
         className="hero"
         id="home"
       >
-
-        {/* LEFT */}
 
         <div className="hero-left">
 
@@ -101,8 +147,7 @@ function App() {
             Microservices, AWS, Docker and
             Kubernetes.
 
-            <br />
-            <br />
+            <br /><br />
 
             Passionate about solving complex
             engineering problems, designing clean
@@ -156,25 +201,22 @@ function App() {
 
         </div>
 
-        {/* RIGHT */}
-
         <div className="hero-right">
 
           <div className="image-bg"></div>
-        
+
           <img
             src={developerImg}
             alt="Developer Workstation"
           />
-        
 
         </div>
 
       </section>
 
             {/*==========================
-            CONTACT
-      ===========================*/}
+              CONTACT
+      ==========================*/}
 
       <section
         className="contact"
@@ -193,41 +235,80 @@ function App() {
 
           <form
             className="contact-form"
-            onSubmit={(e) => {
-              e.preventDefault();
-              alert("Thank you! Your message has been submitted.");
-            }}
+            onSubmit={sendEmail}
           >
 
             <input
               type="text"
               placeholder="Your Name"
+              value={form.name}
+              onChange={(e) =>
+                setForm({
+                  ...form,
+                  name: e.target.value,
+                })
+              }
               required
             />
 
             <input
               type="email"
               placeholder="Your Email"
+              value={form.email}
+              onChange={(e) =>
+                setForm({
+                  ...form,
+                  email: e.target.value,
+                })
+              }
               required
             />
 
             <input
               type="text"
               placeholder="Subject"
+              value={form.subject}
+              onChange={(e) =>
+                setForm({
+                  ...form,
+                  subject: e.target.value,
+                })
+              }
+              required
             />
 
             <textarea
               rows="6"
               placeholder="Your Message"
+              value={form.message}
+              onChange={(e) =>
+                setForm({
+                  ...form,
+                  message: e.target.value,
+                })
+              }
               required
             ></textarea>
 
             <button
               type="submit"
               className="primary-btn"
+              disabled={loading}
             >
-              Send Message
+              {loading ? "Sending..." : "Send Message"}
             </button>
+
+            {status === "success" && (
+              <p className="success-msg">
+                ✅ Thank you! Your message has been sent successfully.
+              </p>
+            )}
+
+            {status === "error" && (
+              <p className="error-msg">
+                ❌ Failed to send your message. Please try again.
+              </p>
+            )}
 
           </form>
 
@@ -237,7 +318,7 @@ function App() {
 
       {/*==========================
               FOOTER
-      ===========================*/}
+      ==========================*/}
 
       <footer>
 
@@ -267,7 +348,7 @@ function App() {
               <FaGithub />
             </a>
 
-            <a href="mailto:srikanthbandaru79@@gmail.com">
+            <a href="mailto:srikanthbandaru79@gmail.com">
               <FaEnvelope />
             </a>
 
