@@ -159,7 +159,7 @@ function App() {
           <div className="buttons">
 
             <a
-              href="/resume.pdf"
+              href="https://drive.google.com/drive/folders/1cjqsVMatir5gF6n19YvEFUV7SjCEZ1KZ?usp=drive_link"
               className="primary-btn"
             >
               View Resume
