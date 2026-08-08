@@ -141,19 +141,10 @@ function App() {
           </h2>
 
           <p className="description">
-            I build scalable, secure and
-            high-performance web applications
-            using React, Java, Spring Boot,
-            Microservices, AWS, Docker and
-            Kubernetes.
-
-            <br /><br />
-
-            Passionate about solving complex
-            engineering problems, designing clean
-            architectures and delivering
-            production-ready software that creates
-            real business value.
+     Backend Software Engineer with 5+ years of experience designing and building scalable Java/Spring Boot microservices,
+distributed systems, and cloud-native enterprise payment platforms. Experienced in Kubernetes, AWS, GCP, Apache Kafka,
+Redis, and OpenTelemetry, with a proven track record of improving performance, scalability, observability, and reliability
+for enterprise applications serving 200+ customers.
           </p>
 
           <div className="buttons">
